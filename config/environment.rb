@@ -1,6 +1,6 @@
 require 'bundler'
-
 Bundler.require
 
-require 'open_uri'
+require 'open-uri'
+
 require_all 'lib'
