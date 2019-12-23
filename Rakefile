@@ -8,10 +8,10 @@ task :console do
   Pry.start
 end
 
-task :scrape_roooms do
+task :scrape_rooms do
   # instantiate a scraper, then have it find new rooms
   nyc_scraper = RoomScraper.new('https://newyork.craigslist.org/search/sfc/roo')
-  nyc_scraper.call
+  # nyc_scraper.call
   # chicago_scraper = RoomScraper.new('https://chicago.craigslist.org/search/sfc/roo')
   # chicago_scraper.call
   # sfbay_scraper = RoomScraper.new('https://sfbay.craigslist.org/search/sfc/roo')
