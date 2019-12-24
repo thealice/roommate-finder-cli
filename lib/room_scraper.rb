@@ -7,8 +7,7 @@ class RoomScraper
 
   def call
     rows.each do |row_doc|
-      room = Room.new_from_hash(scrape_row(row_doc))
-      room.save # put room in my database
+      Room.create_from_hash(scrape_row(row_doc)) # will put room in my database
     end
   end
 
