@@ -25,6 +25,4 @@ private
     }
   end
 
-
-
 end
