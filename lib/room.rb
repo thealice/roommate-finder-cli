@@ -18,6 +18,15 @@ class Room
     insert
   end
 
+  def self.all
+    sql = <<-SQL
+      SELECT * from rooms;
+    SQL
+
+    rows = DB[:connection].execute(sql)
+    binding.pry #reify. https://www.youtube.com/watch?time_continue=3860&v=1eIgKGukBlg&feature=emb_logo
+  end
+
   def insert
     # I need a database!!!
     sql = <<-SQL
