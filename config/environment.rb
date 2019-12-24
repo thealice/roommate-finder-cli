@@ -8,6 +8,4 @@ DB = {
 }
 
 
-binding.pry
-
 require_all 'lib'

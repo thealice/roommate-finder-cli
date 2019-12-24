@@ -15,12 +15,20 @@ class Room
   end
 
   def save
+    insert
+  end
+
+  def insert
     # I need a database!!!
-    sql =
+    sql = <<-SQL
+      INSERT INTO rooms (title, date_created, price, url)
+      VALUES (?,?,?,?)
+    SQL
+    DB[:connection].execute(sql, self.title, self.date_created, self.price, self.url)
   end
 
   def self.create_table
-    sql <<-SQL
+    sql = <<-SQL
       CREATE TABLE IF NOT EXISTS rooms (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
         title TEXT,
