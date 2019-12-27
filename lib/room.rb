@@ -1,5 +1,5 @@
 class Room
-  attr_accessor :title, :date_created, :price, :url
+  attr_accessor :id, :title, :date_created, :price, :url
 
   def self.create_from_hash(hash)
     new_from_hash(hash).save
@@ -11,11 +11,18 @@ class Room
     room.date_created = hash[:date_created]
     room.price = hash[:price]
     room.url =  hash[:url]
+
     room
   end
 
-  def save
-    insert
+  def self.new_from_db()
+    self.new.tap do |room|
+      room.id = row[0]
+      room.title = row[1]
+      room.date_created = row[2]
+      room.price = row[3]
+      room.url = row[4]
+    end
   end
 
   def self.all
@@ -24,7 +31,14 @@ class Room
     SQL
 
     rows = DB[:connection].execute(sql)
-    binding.pry #reify. https://www.youtube.com/watch?time_continue=3860&v=1eIgKGukBlg&feature=emb_logo
+    #reify.
+    rows.collect do |row|
+      self.new_from_db(row)
+    end
+  end
+
+  def save
+    insert
   end
 
   def insert
