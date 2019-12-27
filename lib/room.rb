@@ -15,7 +15,27 @@ class Room
     room
   end
 
-  def self.new_from_db()
+  def self.by_price(order = "ASC")
+    sql = <<-SQL
+      SELECT * FROM rooms ORDER BY price #{order}
+    SQL
+    DB[:connection].execute(sql)
+    self.new_from_rows(rows)
+    # case order
+    # when "ASC"
+    #   self.all.sort_by{|r| r.price if r.price}
+    # when "DESC"
+    #   self.all.sort_by{|r| r.price if r.price}.reverse
+    # end
+  end
+
+  def self.new_from_rows(rows)
+    rows.collect do |row|
+      self.new_from_db(row)
+    end
+  end
+
+  def self.new_from_db(row)
     self.new.tap do |room|
       room.id = row[0]
       room.title = row[1]
@@ -31,10 +51,7 @@ class Room
     SQL
 
     rows = DB[:connection].execute(sql)
-    #reify.
-    rows.collect do |row|
-      self.new_from_db(row)
-    end
+    self.new_from_rows(rows)#reify
   end
 
   def save
@@ -60,6 +77,11 @@ class Room
         url TEXT
       )
     SQL
+    DB[:connection].execute(sql)
+  end
+
+  def self.drop_table
+    sql = "DROP TABLE IF EXISTS rooms"
     DB[:connection].execute(sql)
   end
 
